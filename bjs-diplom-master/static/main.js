@@ -106,17 +106,15 @@ function main(){
                     name: { firstName: 'djon', lastName: 'Chernyshev' },
                     password: 'djonspass',
                     }, (err, data) => {
-        if (err) {
-            if(err.code === 409) {
-                Ivan.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
-                    if (err) {
-                        console.error(err.code);
-                    } else {
-                        Ivan.status = true;
-                        console.log(`Authoriing user Ivan`);
-                    }
-                });
-            }
+        if (err.code === 409) {
+            Ivan.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
+                if (err) {
+                    console.error(err.code);
+                } else {
+                    Ivan.status = true;
+                    console.log(`Authoriing user Ivan`);
+                }
+            });
         } else {
             Ivan.status = true;
             console.log(`Creating user Ivan`);
@@ -171,7 +169,6 @@ function main(){
             clearInterval(timer1);
         }
     }, 1000);
-
     
 
     // getStocks(callback) {
