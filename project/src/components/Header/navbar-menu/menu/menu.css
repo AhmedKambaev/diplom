@@ -1,0 +1,30 @@
+.link {
+	color: white;
+	text-decoration: none;
+	padding: 5px 0;
+	border-bottom: 1px solid #FFFFFF00;
+}
+
+.link:hover {
+	color: #aaaaaa;
+	cursor: pointer;
+	border-color: #aaaaaa;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.list-items {
+	list-style-type: none;
+}
+
+.item:nth-child(n+2) {
+	margin-left: 30px;
+}
+
+@media screen and (max-device-width: 1100px) {
+	.d-flex {
+		display: block;
+	}
+}

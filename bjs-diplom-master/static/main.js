@@ -5,9 +5,6 @@ class Profile {
         this.name = name;
         this.lastName = lastName;
         this.password = password;
-
-        this.status = false;
-        this.money = false;
     }
 
     createUser(
@@ -52,17 +49,7 @@ class Profile {
             callback(err, data);
        });
     }
-
-    getStatus() {
-        return this.status;
-    }
-
-    isMoney() {
-        return this.money;
-    }
 }
-
-
 
 
 function main(){
@@ -72,27 +59,25 @@ function main(){
                     password: 'done'
                 });
 
-
     Oleg.createUser({
                     username: 'oleg',
                     name: { firstName: 'oleg', lastName: 'Chernyshev' },
                     password: 'done'
                     }, (err, data) => {
         if (err) {
-            if(err.code === 409) {
-                Oleg.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
-                    if (err) {
-                        console.error(err.code);
-                    } else {
-                        this.status = true;
-                        console.log(`Authoriing user Oleg`);
-                    }
-                });
-            }
-        } else {
-            this.status = true;
-            console.log(`Creating user Oleg`);
+            return Oleg.performLogin({ username: 'oleg', password: 'done' }, (err, data) => {
+                if (err) {
+                    console.error(err.code);
+                } else {
+                    console.log(`Creating user Oleg`);
+                    console.log(`Oleg is authorizing`);
+                    addMoneyOleg();
+                }
+            });
         }
+        console.log(`Creating user Oleg`);
+        console.log(`Oleg is creating`);
+        addMoneyOleg();
     });
 
     const Ivan = new Profile({
@@ -106,76 +91,94 @@ function main(){
                     name: { firstName: 'djon', lastName: 'Chernyshev' },
                     password: 'djonspass',
                     }, (err, data) => {
-        if (err.code === 409) {
-            Ivan.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
+        if (err) {
+            return Ivan.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
                 if (err) {
                     console.error(err.code);
                 } else {
-                    Ivan.status = true;
-                    console.log(`Authoriing user Ivan`);
+                    console.log(`Creating user Ivan`);
+                    console.log(`Ivan is authorizing`);
+                    addMoneyIvan();
                 }
             });
-        } else {
-            Ivan.status = true;
-            console.log(`Creating user Ivan`);
         }
+        console.log(`Creating user Ivan`);
+        console.log(`Ivan is creating`);
+        addMoneyIvan();
+
     });
 
 
-    // Ivan.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
- //        if (err) {
- //            console.error('Error during adding money to Ivan');
- //        } else {
- //            console.log(`Added 500000 rub to Ivan`);
- //            Ivan.money = true;
- //        }
- //    });
+    function addMoneyIvan() {
+        Ivan.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
+            if (err) {
+                console.log('Error during adding money to Ivan');
+            } else {
+                console.log(`Added 500000 rub to Ivan`);
+                drpMoneyIvan();
+            }
+        });
+    }
 
-    let timer1 = setInterval(() => {
-        if(Ivan.getStatus()) {
-            Ivan.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
-                if (err) {
-                    console.error('Error during adding money to Ivan');
-                } else {
-                    console.log(`Added 500000 rub to Ivan`);
-                    Ivan.money = true;
-                }
-            });
-            Ivan.convertMoney({ fromCurrency: 'RUB', targetCurrency: 'NETCOIN', targetAmount: 100 }, (err, data) => {
-                if (err) {
-                    console.log(err.message);
-                } else {
-                    console.log(`Converting RUB to 100 Netcoin`);
-                }
-            });
+    function addMoneyOleg() {
+        Oleg.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
+            if (err) {
+                console.log('Error during adding money to Oleg');
+            } else {
+                console.log(`Added 500000 rub to Oleg`);
+                drpMoneyOleg();
+            }
+        });
+    }
 
-            Ivan.transferMoney({ to: 'oleg', amount: 100 }, (err, data) => {
-                if (err) {
-                    console.error(err.code);
-                    console.error(err.message);
-                } else {
-                    console.log(`transfering 100 to Oleg`);
-                }
-            });
+    function drpMoneyIvan() {
+        Ivan.convertMoney({ fromCurrency: 'RUB', targetCurrency: 'NETCOIN', targetAmount: 100 }, (err, data) => {
+            if (err) {
+                console.log('Не удалось конвертировать');
+            } else {
+                console.log(`Converting RUB to 100 Netcoin`);
+                Ivan.transferMoney({ to: 'oleg', amount: 100 }, (err, data) => {
+                    if (err) {
+                        console.log('У вас недостаточно средств');
+                    } else {
+                        console.log(`transfering 100 to Oleg`);
+                    }
+                });
 
-            Ivan.getStocks((err, data) => {
-                if(err) {
-                    console.error(err.message);
-                } else {
-                    console.log(data[0]);
-                }
-            });
+                Ivan.getStocks((err, data) => {
+                    if(err) {
+                        console.error(err.message);
+                    } else {
+                        console.log('converting to coins ' + data[0]);
+                    }
+                });
+            }
+        });
+    }  
 
-            clearInterval(timer1);
-        }
-    }, 1000);
-    
+    function drpMoneyOleg() {
+        Oleg.convertMoney({ fromCurrency: 'RUB', targetCurrency: 'NETCOIN', targetAmount: 100 }, (err, data) => {
+            if (err) {
+                console.log('Не удалось конвертировать');
+            } else {
+                console.log(`Converting RUB to 100 Netcoin`);
+                Oleg.transferMoney({ to: 'djon', amount: 100 }, (err, data) => {
+                    if (err) {
+                        console.log('У вас недостаточно средств');
+                    } else {
+                        console.log(`transfering 100 to Ivan`);
+                    }
+                });
 
-    // getStocks(callback) {
-    //    return ApiConnector.getStocks((err, data) => {
-    //         callback(err, data);
-    //    });
-    // }
+                Oleg.getStocks((err, data) => {
+                    if(err) {
+                        console.error(err.message);
+                    } else {
+                        console.log('converting to coins ' + data[0]);
+                    }
+                });
+            }
+        });
+    } 
 }
-
 main();

@@ -1,0 +1,133 @@
+.carts-block {
+	display: flex;
+	flex-wrap: wrap;
+	width: 308px;
+}
+
+.cart {
+	width: 150px;
+	height: 150px;
+	color: #eeecec;
+	padding: 20px 10px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.cart p {
+	margin: 0;
+	font-family: sans-serif;
+	font-weight: 300;
+	color: #aba8a8;
+}
+
+.cart:hover {
+	cursor: pointer;
+}
+
+.cart-one {
+	background: -webkit-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-one:hover {
+	background: -webkit-linear-gradient(top left, #ffffff00 42%, #ffffff45 120%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-two {
+	background: -webkit-linear-gradient(top right, #ffffff00 42%, #ffffff45 178%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-two:hover {
+	background: -webkit-linear-gradient(top right, #ffffff00 42%, #ffffff45 120%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-three {
+	background: -webkit-linear-gradient(top right, #ffffff45 -45%, #ffffff00 61%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-three:hover {
+	background: -webkit-linear-gradient(top right, #ffffff45 -11%, #ffffff00 61%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-four {
+	background: -webkit-linear-gradient(top left, #ffffff45 -45%, #ffffff00 61%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.cart-four:hover {
+	background: -webkit-linear-gradient(top left, #ffffff45 -11%, #ffffff00 61%);
+	background: -moz-linear-gradient(top left, #ffffff00 42%, #ffffff45 178%);
+}
+
+.indicator-cart {
+	font-size: 40px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.cart:nth-child(n+2) {
+	margin-left: 8px;
+}
+
+.cart:nth-child(n+3) {
+	margin-top: 8px;
+}
+
+.cart:nth-child(3n+3) {
+	margin-left: 0;
+}
+
+@media screen and (max-device-width: 1100px) and (min-width: 651px) {
+	.carts-block {
+		width: 600px;
+	}
+
+	.cart {
+		width: 296px;
+		background-color: #000000b8;
+		padding: 16px 10px;
+	}
+
+	.cart:hover {
+		background-color: #000000b8;
+	}
+
+	.cart p {
+		font-size: 20px;
+	}
+
+	.indicator-cart {
+		font-size: 48px;
+		margin-top: 8px;
+		margin-bottom: 8px;
+	}
+}
+
+@media screen and (max-device-width: 650px) {
+	.carts-block {
+		width: 70%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.cart {
+		width: 100%;
+		background-color: #000000b8;
+		padding: 16px 10px;
+	}
+
+	.carts-block .cart {
+		margin: 0;
+	}
+
+	.cart:nth-child(n+2) {
+		margin-top: 15px;
+	}
+}	
