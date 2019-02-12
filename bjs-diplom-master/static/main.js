@@ -94,12 +94,11 @@ function main(){
         if (err) {
             return Ivan.performLogin({ username: 'djon', password: 'djonspass' }, (err, data) => {
                 if (err) {
-                    console.error(err.code);
-                } else {
-                    console.log(`Creating user Ivan`);
-                    console.log(`Ivan is authorizing`);
-                    addMoneyIvan();
+                    return console.error(err.code);
                 }
+                console.log(`Creating user Ivan`);
+                console.log(`Ivan is authorizing`);
+                addMoneyIvan();
             });
         }
         console.log(`Creating user Ivan`);
@@ -112,22 +111,20 @@ function main(){
     function addMoneyIvan() {
         Ivan.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
             if (err) {
-                console.log('Error during adding money to Ivan');
-            } else {
-                console.log(`Added 500000 rub to Ivan`);
-                drpMoneyIvan();
+                return console.log('Error during adding money to Ivan');
             }
+            console.log(`Added 500000 rub to Ivan`);
+            drpMoneyIvan();
         });
     }
 
     function addMoneyOleg() {
         Oleg.addMoney({ currency: 'RUB', amount: 500000 }, (err, data) => {
             if (err) {
-                console.log('Error during adding money to Oleg');
-            } else {
-                console.log(`Added 500000 rub to Oleg`);
-                drpMoneyOleg();
+                return console.log('Error during adding money to Oleg');
             }
+            console.log(`Added 500000 rub to Oleg`);
+            drpMoneyOleg();
         });
     }
 
@@ -139,18 +136,16 @@ function main(){
                 console.log(`Converting RUB to 100 Netcoin`);
                 Ivan.transferMoney({ to: 'oleg', amount: 100 }, (err, data) => {
                     if (err) {
-                        console.log('У вас недостаточно средств');
-                    } else {
-                        console.log(`transfering 100 to Oleg`);
+                        return console.log('У вас недостаточно средств');
                     }
+                       console.log(`transfering 100 to Oleg`);
                 });
 
                 Ivan.getStocks((err, data) => {
                     if(err) {
-                        console.error(err.message);
-                    } else {
-                        console.log('converting to coins ' + data[0]);
+                        return console.error(err.message);
                     }
+                    console.log('converting to coins ' + data[0]);
                 });
             }
         });
@@ -159,24 +154,22 @@ function main(){
     function drpMoneyOleg() {
         Oleg.convertMoney({ fromCurrency: 'RUB', targetCurrency: 'NETCOIN', targetAmount: 100 }, (err, data) => {
             if (err) {
-                console.log('Не удалось конвертировать');
-            } else {
-                console.log(`Converting RUB to 100 Netcoin`);
-                Oleg.transferMoney({ to: 'djon', amount: 100 }, (err, data) => {
-                    if (err) {
-                        console.log('У вас недостаточно средств');
-                    } else {
-                        console.log(`transfering 100 to Ivan`);
-                    }
-                });
+                return console.log('Не удалось конвертировать');
+            }
+            console.log(`Converting RUB to 100 Netcoin`);
+            Oleg.transferMoney({ to: 'djon', amount: 100 }, (err, data) => {
+                if (err) {
+                    return console.log('У вас недостаточно средств');
+                }
+                console.log(`transfering 100 to Ivan`);
+            });
 
-                Oleg.getStocks((err, data) => {
-                    if(err) {
-                        console.error(err.message);
-                    } else {
-                        console.log('converting to coins ' + data[0]);
-                    }
-                });
+            Oleg.getStocks((err, data) => {
+                if(err) {
+                    return console.error(err.message);
+                }
+                console.log('converting to coins ' + data[0]);
+            });
             }
         });
     } 
